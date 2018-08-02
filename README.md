@@ -1,0 +1,2 @@
+# TazzieBot
+Automated trading robot
