@@ -1,0 +1,33 @@
+﻿@font-face {
+    font-family: 'Roboto-Bold';
+    src: url('../fonts/roboto/Roboto-Bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Roboto-Regular';
+    src: url('../fonts/roboto/Roboto-Regular.ttf') format('truetype');
+}
+
+body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-family: Roboto-Regular;
+}
+
+nav{
+  max-height: 90px;
+  min-height: : 70px;
+}
+
+h4 {
+    font-family: Roboto-Bold;
+}
+
+.fullSize{
+  height: 100%;
+  width:100%;
+}
+
+.fullWidth{
+  width: 100%;
+}
