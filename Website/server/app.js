@@ -47,11 +47,11 @@ mongoose.connect("mongodb://localhost:27017/JMRdb", {
 //    Server
 
 mongoose
-    .connect("mongodb://localhost:27017/CoportalDB?authSource=admin", {
-        //  auth: {
-        //      user: "admin",
-        //      password: "Mulavhelesi@1"
-        //  },
+    .connect("mongodb://localhost:27017/TazzieDB?authSource=admin", {
+        auth: {
+            user: "admin",
+            password: "Mulavhelesi@1"
+        },
         useNewUrlParser: true,
         reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
         reconnectInterval: 500, // Reconnect every 500ms
