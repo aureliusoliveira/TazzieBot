@@ -330,3 +330,5 @@ ASALocalRun/
 .mfractor/
 
 Website/server/dist/
+
+/Website/server/dist/*

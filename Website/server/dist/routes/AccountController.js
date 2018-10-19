@@ -4,9 +4,9 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _Admin = require("../models/Admin");
+var _User = require("../models/User");
 
-var _Admin2 = _interopRequireDefault(_Admin);
+var _User2 = _interopRequireDefault(_User);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -15,38 +15,22 @@ var router = express.Router();
 // import the models
 
 
-/*
-  TODO : Add admin
-         Remove Admin
-         Log in admin
-         Get stats involving the admin
-                - Notifications sent
-                - 
-*/
-
 router.post("/login", function (req, res) {
-  var password = req.body.password;
-  var username = req.body.username;
+    var password = req.body.password;
+    var username = req.body.username;
 
-  _Admin2.default.findOne({
-    username: username,
-    password: password
-  }).then(function (admin) {
-    if (admin == null) {
-      res.status(512).send(username + " does not exist");
-    } else {
-      // admin != null
-      if (admin.password != password) {
-        res.status(512).send("Incorrect password for " + username);
-      }
-      res.json({
-        userType: 'ADMIN',
-        user: admin
-      });
-    }
-  }).catch(function (err) {
-    res.status(500).send(err.message);
-  });
+    _User2.default.findOne({
+        username: username,
+        password: password
+    }).then(function (user) {
+        if (user == null) {
+            res.status(512).send(username + " does not exist");
+        } else {
+            res.json(user);
+        }
+    }).catch(function (err) {
+        res.status(500).send(err.message);
+    });
 });
 
 module.exports = router;

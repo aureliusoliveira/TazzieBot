@@ -12,6 +12,10 @@ var _AccountController = require("./routes/AccountController");
 
 var _AccountController2 = _interopRequireDefault(_AccountController);
 
+var _SignalController = require("./routes/SignalController");
+
+var _SignalController2 = _interopRequireDefault(_SignalController);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var express = require("express");
@@ -42,24 +46,12 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-// Local Host
-/*
-mongoose.connect("mongodb://localhost:27017/JMRdb", {
-    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-    reconnectInterval: 500, // Reconnect every 500ms
-    dbName: 'JMRdb'
-}).then((answer) => {
-    console.log("Successfully connected to MONGO!");
-});
-*/
 
-//    Server
-
-_mongoose2.default.connect("mongodb://localhost:27017/CoportalDB?authSource=admin", {
-    //  auth: {
-    //      user: "admin",
-    //      password: "Mulavhelesi@1"
-    //  },
+_mongoose2.default.connect("mongodb://localhost:27017/TazzieDB?authSource=admin", {
+    auth: {
+        user: "admin",
+        password: "Mulavhelesi@1"
+    },
     useNewUrlParser: true,
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
     reconnectInterval: 500, // Reconnect every 500ms
@@ -70,6 +62,7 @@ _mongoose2.default.connect("mongodb://localhost:27017/CoportalDB?authSource=admi
 
 app.use("/a", _AdminController2.default);
 app.use("/acc", _AccountController2.default);
+app.use("/s", _SignalController2.default);
 
 /// catch 404 and forwarding to error handler
 app.use(function (req, res, next) {

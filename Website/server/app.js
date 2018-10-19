@@ -10,6 +10,7 @@ var app = express();
 import mongoose from "mongoose";
 import adminController from "./routes/AdminController";
 import accountController from "./routes/AccountController";
+import signalController from "./routes/SignalController";
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -25,7 +26,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Headers",
@@ -33,18 +34,6 @@ app.use(function (req, res, next) {
     );
     next();
 });
-// Local Host
-/*
-mongoose.connect("mongodb://localhost:27017/JMRdb", {
-    reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
-    reconnectInterval: 500, // Reconnect every 500ms
-    dbName: 'JMRdb'
-}).then((answer) => {
-    console.log("Successfully connected to MONGO!");
-});
-*/
-
-//    Server
 
 mongoose
     .connect("mongodb://localhost:27017/TazzieDB?authSource=admin", {
@@ -63,9 +52,10 @@ mongoose
 
 app.use("/a", adminController);
 app.use("/acc", accountController);
+app.use("/s", signalController);
 
 /// catch 404 and forwarding to error handler
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
     var err = new Error("Not Found");
     err.status = 404;
     next(err);
@@ -76,7 +66,7 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get("env") === "development") {
-    app.use(function (err, req, res, next) {
+    app.use(function(err, req, res, next) {
         res.status(err.status || 500);
         res.render("error", {
             message: err.message,
@@ -87,7 +77,7 @@ if (app.get("env") === "development") {
 
 // production error handler
 // no stacktraces leaked to user
-app.use(function (err, req, res, next) {
+app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render("error", {
         message: err.message,
