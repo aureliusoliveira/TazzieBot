@@ -49,6 +49,7 @@ const SignalSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    object: Object
 });
 
 const Signal = mongoose.model('Signal', SignalSchema);

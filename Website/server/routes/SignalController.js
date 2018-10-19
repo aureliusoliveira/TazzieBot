@@ -4,11 +4,28 @@ var router = express.Router();
 import mongoose from "mongoose";
 // import the models
 import User from "../models/User";
+import Signal from "../models/Signal";
 import PushNotification from '../functions'
 
 router.post("/submit", function(req, res) {
     var userID = req.body.userID;
     var signal = req.body.signal;
+    console.log(req.body);
+
+    // Go to all the users who are valid for the trade
+    // Send them a push
+    // Save the signal
+    // Mark all successfully sent.
+
+    var signal = new Signal({
+        object: req.body
+    });
+
+    signal.save(function(err) {
+        if (err) return res.status(512).send("Server error : " + err.message);
+        res.json(signal);
+    });
+
 })
 
 router.post("/send/notification", function(req, res) {
