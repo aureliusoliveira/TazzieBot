@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Text;
 using cAlgo.API;
 using System.Runtime.InteropServices;
 using cAlgo.API.Indicators;
 using System.Collections.Generic;
 using cAlgo.API.Internals;
 using System.Diagnostics;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace cAlgo.Indicators
 {
@@ -58,6 +64,9 @@ namespace cAlgo.Indicators
         private bool buyPosition { get; set; }
         private bool sellPosition { get; set; }
 
+        private HttpClient HttpClient { get; set; }
+        private const string URL = "https://jmrsquared.com/api/tazziebot/";
+
         public class ProfitPosition
         {
             public TradeType type { get; set; }
@@ -92,24 +101,9 @@ namespace cAlgo.Indicators
 
         protected override void Initialize()
         {
+            HttpClient = new HttpClient();
             Print("Started super Profit indicator, Time frame " + MarketSeries.TimeFrame.ToString() + " \r\n " + Symbol);
             profitPositions = new List<ProfitPosition>();
-
-            try
-            {
-                //p.Start();
-                new System.Threading.Thread(() =>
-                {
-                    Process p = new Process();
-                    p.StartInfo.FileName = "WriteSignalToMongo/WriteSignalToMongo";
-                    string args = "0" + " BUY " + Symbol.Code + " 1250.0 1270.0 1280.0 1249.0 " + DateTime.Now;
-                    p.StartInfo.Arguments = args;
-                }).Start();
-
-            } catch (Exception ex)
-            {
-                Print("ERROR : " + ex.Message);
-            }
 
             //Set the take profit and stop loss
             TakeProfit = 100 * Symbol.PipSize;
@@ -168,12 +162,13 @@ namespace cAlgo.Indicators
                                 SL[index] = stopLoss;
 
                                 //isPlacePosition = true;
-                                profitPositions.Add(new ProfitPosition("Buy", Symbol, stopLoss, takeProfit, entryPrice));
-                                DisplayAlert("Buy signal", takeProfit, stopLoss, entryPrice);
+                                var position = new ProfitPosition("Buy", Symbol, stopLoss, takeProfit, entryPrice);
+                                profitPositions.Add(position);
+                                DisplayAlert("Buy signal", takeProfit, stopLoss, entryPrice, position);
 
-                                ChartObjects.DrawHorizontalLine("Take Profit", takeProfit, Colors.Green, 3);
-                                ChartObjects.DrawHorizontalLine("Stop Loss", stopLoss, Colors.Red, 3);
-                                ChartObjects.DrawHorizontalLine("Entry", entryPrice, Colors.White, 3);
+                                Chart.DrawHorizontalLine("Take Profit", takeProfit, Color.Green, 3);
+                                Chart.DrawHorizontalLine("Stop Loss", stopLoss, Color.Red, 3);
+                                Chart.DrawHorizontalLine("Entry", entryPrice, Color.White, 3);
                             }
                             else
                             {
@@ -217,12 +212,13 @@ namespace cAlgo.Indicators
                             SL[index] = stopLoss;
 
                             //isPlacePosition = true;
-                            profitPositions.Add(new ProfitPosition("Sell", Symbol, stopLoss, takeProfit, entryPrice));
-                            DisplayAlert("Sell signal", takeProfit, stopLoss, entryPrice);
+                            var position = new ProfitPosition("Sell", Symbol, stopLoss, takeProfit, entryPrice);
+                            profitPositions.Add(position);
+                            DisplayAlert("Sell signal", takeProfit, stopLoss, entryPrice, position);
 
-                            ChartObjects.DrawHorizontalLine("Take Profit", takeProfit, Colors.Green, 3);
-                            ChartObjects.DrawHorizontalLine("Stop Loss", stopLoss, Colors.Red, 3);
-                            ChartObjects.DrawHorizontalLine("Entry", entryPrice, Colors.White, 3);
+                            Chart.DrawHorizontalLine("Take Profit", takeProfit, Color.Green, 3);
+                            Chart.DrawHorizontalLine("Stop Loss", stopLoss, Color.Red, 3);
+                            Chart.DrawHorizontalLine("Entry", entryPrice, Color.White, 3);
 
                         }
                     }
@@ -232,7 +228,7 @@ namespace cAlgo.Indicators
             }
         }
 
-        protected void DisplayAlert(string tradyTypeSignal, double takeProfit, double stopLoss, double entryPrice)
+        protected void DisplayAlert(string tradyTypeSignal, double takeProfit, double stopLoss, double entryPrice, ProfitPosition position)
         {
             string entryPricetext = entryPrice != 0.0 ? string.Format("Price : {0}", Math.Round(entryPrice, 4)) : "";
             string takeProfitText = takeProfit != 0.0 ? string.Format("TP : {0}", Math.Round(takeProfit, 4)) : "";
@@ -242,14 +238,28 @@ namespace cAlgo.Indicators
 
             try
             {
-                Process p = new Process();
-                p.StartInfo.FileName = "WriteSignalToMongo/WriteSignalToMongo";
-                string args = "0" + " " + tradyTypeSignal + " " + Symbol.Code + " " + Symbol.Ask + " " + stopLoss + " " + takeProfit + " " + entryPrice + " " + DateTime.Now;
-                p.StartInfo.Arguments = args;
-                // p.Start();
+                var request = new HttpRequestMessage(HttpMethod.Post, URL + "s/submit");
+                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                request.Headers.AcceptCharset.Add(new StringWithQualityHeaderValue("UTF-8"));
+                request.Headers.UserAgent.Add(new ProductInfoHeaderValue("USERID", "TazzieBotSuperProfit"));
+                var json = JsonConvert.SerializeObject(position);
+                request.Content = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
+                HttpClient.SendAsync(request).ContinueWith(task =>
+                {
+                    var response = task.Result;
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        Print("Send Signal error : Failed");
+                    }
+                    else
+                    {
+                        Print("Send Signal successful");
+                    }
+                });
+
             } catch (Exception ex)
             {
-                Print("ERROR : " + ex.Message);
+                Print("Send Signal error : " + ex.Message);
             }
             Print("Vomit signal ..... " + alertMessage);
         }
