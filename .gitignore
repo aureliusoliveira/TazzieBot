@@ -332,3 +332,5 @@ ASALocalRun/
 Website/server/dist/
 
 /Website/server/dist/*
+/Website/server/dist/*
+/Website/server/functions/tazziebot-firebase-adminsdk.json
