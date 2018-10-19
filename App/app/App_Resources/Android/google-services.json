@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "862218607215",
+    "firebase_url": "https://tazziebot.firebaseio.com",
+    "project_id": "tazziebot",
+    "storage_bucket": "tazziebot.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:862218607215:android:d45c77669cefa3ad",
+        "android_client_info": {
+          "package_name": "com.jmrsquared.tazziebot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "862218607215-ehq7qrerfg5o7g7n9vaco4jn3r2frm4c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdqpgq0LgbSELoeqaFQrbtBUY64dssRcY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

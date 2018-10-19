@@ -1,0 +1,66 @@
+// NativeScript core theme
+// @see https://docs.nativescript.org/ui/theme
+@import '~nativescript-theme-core/scss/purple';
+
+// Override variables here
+
+@import '~nativescript-theme-core/scss/index';
+
+// Global SCSS styling
+// @see https://docs.nativescript.org/ui/styling
+
+.fa {
+    font-family: "FontAwesome";
+}
+
+.mdi {
+    font-family: "Material Icons", "MaterialIcons-Regular";
+}
+
+.purple-text {
+    color: "#9c27b0";
+}
+
+.red-text {
+    color: "#ef4749";
+}
+
+.green-text {
+    color: "#14b053";
+}
+
+.black-text {
+    color: "#010202"
+}
+
+.white-text {
+    color: "#ffffff";
+}
+
+.purple-bg {
+    background-color: "#9c27b0";
+}
+
+.red-bg {
+    background-color: "#ef4749";
+}
+
+.red-light-bg {
+    background-color: rgba(239, 71, 73, 0.1);
+}
+
+.green-bg {
+    background-color: "#14b053";
+}
+
+.green-light-bg {
+    background-color: rgba(20, 176, 83, 0.1);
+}
+
+.black-bg {
+    background-color: "#010202"
+}
+
+.white-bg {
+    background-color: "#eeeeee";
+}
