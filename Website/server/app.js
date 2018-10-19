@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 var app = express();
 
 import mongoose from "mongoose";
-import adminController from "./routes/AdminController";
+import userController from "./routes/UserController";
 import accountController from "./routes/AccountController";
 import signalController from "./routes/SignalController";
 
@@ -50,7 +50,7 @@ mongoose
         console.log("Successfully connected to MONGO!");
     });
 
-app.use("/a", adminController);
+app.use("/u", userController);
 app.use("/acc", accountController);
 app.use("/s", signalController);
 
