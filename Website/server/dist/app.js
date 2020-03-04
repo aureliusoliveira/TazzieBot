@@ -4,9 +4,9 @@ var _mongoose = require("mongoose");
 
 var _mongoose2 = _interopRequireDefault(_mongoose);
 
-var _AdminController = require("./routes/AdminController");
+var _UserController = require("./routes/UserController");
 
-var _AdminController2 = _interopRequireDefault(_AdminController);
+var _UserController2 = _interopRequireDefault(_UserController);
 
 var _AccountController = require("./routes/AccountController");
 
@@ -60,7 +60,7 @@ _mongoose2.default.connect("mongodb://localhost:27017/TazzieDB?authSource=admin"
     console.log("Successfully connected to MONGO!");
 });
 
-app.use("/a", _AdminController2.default);
+app.use("/u", _UserController2.default);
 app.use("/acc", _AccountController2.default);
 app.use("/s", _SignalController2.default);
 
