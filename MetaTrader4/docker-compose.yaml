@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+  wine:
+    build: .
+    ports:
+      - 3389:3389/tcp
+    environment:
+      - RDP_SERVER=yes
+      - USER_NAME=${USER_NAME}
+      - USER_PASSWORD=${USER_PASSWORD}
+    volumes:
+      - ./TazzieBot/TazzieBot.mq4:/home/Metatrader5/MQL5/Advisors/TazzieBot.mq4
+      - ./TazzieBot/TazzieBot.ex4:/home/Metatrader5/MQL5/Advisors/TazzieBot.ex4

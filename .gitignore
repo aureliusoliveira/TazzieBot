@@ -334,3 +334,9 @@ Website/server/dist/
 Website/server/dist/*
 Website/server/dist/*
 Website/server/functions/tazziebot-firebase-adminsdk.json
+
+MetaTrader4/MetaTrader4/
+
+MetaTrader5/MetaTrader5/
+
+.env
